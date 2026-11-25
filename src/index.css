@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/*
+  Paleta tirada do mundo das telecomunicações:
+  aço galvanizado das torres, placa de identificação dos equipamentos
+  e as três primeiras cores do código de cores das fibras ópticas
+  (azul, laranja, verde).
+*/
+@theme {
+  --color-aco: #e6eaee;
+  --color-placa: #f8fafb;
+  --color-tinta: #14202b;
+  --color-cabo: #586572;
+  --color-linha: #c9d1d8;
+  --color-fibra: #1d5fd0;
+  --color-sinal: #e8711a;
+  --color-led: #1e9e55;
+  /* Verde mais escuro para botões com texto branco (contraste AA). */
+  --color-led-escuro: #15753f;
+
+  --font-display: "Archivo Variable", system-ui, sans-serif;
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+/* Títulos: Archivo bem largo e pesado, como a placa de um equipamento. */
+@utility titulo {
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 0.95;
+}
+
+/* Rótulos técnicos (campos da ficha, etiquetas, status). */
+@utility rotulo {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    background-color: var(--color-aco);
+    color: var(--color-tinta);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-fibra);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-fibra);
+    color: var(--color-placa);
+  }
+}
+
+/* LED de status: pisca devagar, como o de um equipamento ligado. */
+@keyframes piscar {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, currentColor 55%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 5px color-mix(in srgb, currentColor 0%, transparent);
+  }
+}
+
+.led {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background-color: currentColor;
+  animation: piscar 2.4s ease-in-out infinite;
+}
+
+/* Carrossel de projetos: rola para o lado, sem barra de rolagem visível. */
+.trilho {
+  scrollbar-width: none;
+}
+
+.trilho::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .led {
+    animation: none;
+  }
+}
